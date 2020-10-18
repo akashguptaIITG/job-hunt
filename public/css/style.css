@@ -1,0 +1,16 @@
+.login {
+  margin-top: 5%;
+  width: 35%;
+  padding: 3%;
+}
+.job-list,
+.job-details {
+  margin-top: 2%;
+}
+.technology {
+  margin-right: 3%;
+}
+
+.job-btn:hover {
+  cursor: pointer;
+}

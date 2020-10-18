@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head.ejs'); %>
+  </head>
+  <body>
+    <div class="container job-details">
+      <h3 class="text-center font-weight-bold">Job Details</h3>
+      <div class="row row-cols-1 row-cols-md-1">
+        <div class="col">
+          <div class="card h-100" onclick="handleClick()">
+            <div class="card-header">
+              <span class="font-weight-bold">Project Name: </span> <%=
+              job.projectName %>
+            </div>
+            <div class="card-body">
+              <h6 class="card-tile">
+                <span class="font-weight-bold">Client Name: </span> <%=
+                job.clientName %>
+              </h6>
+              <h6 class="card-tile">
+                <span class="font-weight-bold">Job Description: </span> <%=
+                job.description %>
+              </h6>
+              <h6 class="card-tile">
+                <span class="font-weight-bold">Role: </span><%= job.role %>
+              </h6>
+              <h6 class="card-tile">
+                <span class="font-weight-bold">Satus: </span><%= job.status %>
+              </h6>
+            </div>
+            <div class="card-footer">
+              <h6 class="font-weight-bold">Technologies</h6>
+              <small class="text-muted">
+                <% job.technologies.forEach(technology=>{ %>
+                <i class="fas fa-cog technology"><%= technology %></i>
+                <% }) %>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function handleClick(e) {
+      console.log(jobId);
+      document.location.replace(`/job/${jobId}`);
+      return false;
+    }
+  </script>
+</html>

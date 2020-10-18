@@ -1,0 +1,11 @@
+{
+  "app": {
+    "port": 7890,
+    "logFormat": "dev",
+    "saltRounds": 5
+  },
+  "db": {
+    "uri": "mongodb://localhost:27017/jobhuntdb",
+    "options": { "useNewUrlParser": true, "useUnifiedTopology": true }
+  }
+}

@@ -1,0 +1,10 @@
+// internal use only
+//  vs code extension rest-client in required for this 
+post http://localhost:7890/user/
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "admin",
+    "role":"Project Manger"
+}

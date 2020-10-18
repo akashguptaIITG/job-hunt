@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head.ejs") %>
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+    <div class="container card login">
+      <form
+        id="loginForm"
+        name="loginForm"
+        class="loginForm"
+        onsubmit="return handleSubmit()"
+        autocomplete="off"
+      >
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </body>
+  <script type="text/javascript">
+    function handleSubmit(event) {
+      const form = document.querySelector("form");
+      const data = Object.fromEntries(new FormData(form).entries());
+      fetch("http://localhost:7890/user/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((d) => d.json())
+        .then((d) => console.log(d))
+        .catch((e) => console.error(e));
+      return false;
+    }
+  </script>
+</html>
