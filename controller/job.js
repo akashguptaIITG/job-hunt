@@ -4,7 +4,7 @@ const jobs = [
     projectName: "power.Js",
     clientName: "Neo",
     description: "exciting oportunity",
-    status: "open",
+    status: "closed",
     role: "node developer",
     technologies: ["node", "javascript"],
     createdBy: 1,
@@ -39,12 +39,16 @@ module.exports = {
     const job = jobs.filter((j) => j._id == id)[0];
     res.render("job/details", { job });
   },
-  getAddOrEditJobPage(req, res) {},
+  getAddOrUpdateJobPage(req, res) {
+    const { _id } = req.query;
+    const job = jobs.filter((j) => j._id == _id)[0];
+    res.render("job/add-or-update", { job });
+  },
   async addJob(req, res) {
     const job = new JobModel(req.body);
     await job.save();
     res.status(201).json({ message: "job created successfully" });
   },
-  updateJobDetails(req, res) {},
+  addOrUpdateJobDetails(req, res) {},
   applyToJob(req, res) {},
 };

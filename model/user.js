@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { USER_ROLES } = require("../common/constant");
 const { saltRounds } = require("config").get("app");
+const jwtConfig = require("config").get("jwt");
+
 const Types = mongoose.Schema.Types;
+
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -33,6 +37,26 @@ UserSchema.methods.hashPassword = async function () {
 // validating password
 UserSchema.methods.validatePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
+};
+UserSchema.methods.issueJwt = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+      username: this.username,
+      role: this.role,
+    },
+    process.env.JWT_SECRET,
+    jwtConfig
+  );
+};
+
+UserSchema.methods.toAuthJson = function () {
+  return {
+    username: this.username,
+    _id: this._id,
+    role: this.role,
+    token: this.issueJwt(),
+  };
 };
 
 module.exports = mongoose.model("user", UserSchema);

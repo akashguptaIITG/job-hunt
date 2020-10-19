@@ -1,6 +1,5 @@
 const userController = require("../controller/user");
 const router = require("express").Router();
-
 // rendering register view
 router.get("/register", userController.getRegisterPage);
 
@@ -10,7 +9,7 @@ router.post("/", userController.addUser);
 // rendering login view
 router.get("/login", userController.getLoginPage);
 
-// verifying login 
+// verifying login
 router.post("/login", userController.checkLogin);
 
 module.exports = router;

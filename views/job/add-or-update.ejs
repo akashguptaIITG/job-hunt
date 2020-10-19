@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head.ejs") %>
+  </head>
+  <body style="background: rgba(128, 128, 128, 0.726)">
+    <%- include("../partials/header.ejs") %>
+    <div class="container card addOrUpdate">
+      <h4 class="text-center font-weight-bold">
+        <%= (job)?"Add":"Update" %> Job Opening
+      </h4>
+      <form
+        class="addOrUpdateForm"
+        id="addOrUpdateForm"
+        name="addOrUpdateForm"
+        onsubmit="return handleSubmit()"
+        autocomplete="off"
+      >
+        <div class="form-group">
+          <label for="projectName">Project Name</label>
+          <input type="text" class="form-control" id="projectName"
+          name="projectName"required value=<%= (job)?job.projectName:'' %>"" />
+        </div>
+        <div class="form-group">
+          <label for="clientName">Client Name</label>
+          <input type="text" class="form-control" id="clientName"
+          name="clientName" required value=<%= (job)?job.clientName:"" %>"" />
+        </div>
+        <div class="form-group">
+          <label for="technologies">Technologies</label>
+          <input type="text" class="form-control" id="technologies"
+          name="technologies" required  value=<%-  job ? job.technologies : "" %>>
+          <small class="text-muted align-self-start"
+            >*add multiple technologies using comma seperated values</small
+          >
+        </div>
+        <div class="form-group">
+          <label for="role">Role</label>
+          <input type="text" class="form-control" id="role" name="role" required
+          value=<%= (job)?job.role:"" %>"" />
+          <div class="form-group">
+            <label for="description">Job Description</label>
+            <input type="text" class="form-control" id="description"
+            name="description" required value=<%= (job)?job.description:"" %>""
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select name="status" id="status" class="custom-select">
+            <option selected value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </body>
+  <script type="text/javascript">
+    async function handleSubmit(event) {
+      const form = document.querySelector("form");
+      const data = Object.fromEntries(new FormData(form).entries());
+      console.log(data);
+      fetch("http://localhost:7890/user", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((d) => d.json())
+        .then((d) => console.log(d))
+        .catch((e) => console.error(e));
+      return false;
+    }
+  </script>
+</html>

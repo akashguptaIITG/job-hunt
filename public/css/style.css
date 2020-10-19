@@ -1,7 +1,14 @@
-.login {
+.login,
+.register {
   margin-top: 5%;
   width: 35%;
   padding: 3%;
+}
+
+.addOrUpdate {
+  margin-top: 2%;
+  width: 55%;
+  padding: 2%;
 }
 .job-list,
 .job-details {

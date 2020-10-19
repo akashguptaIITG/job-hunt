@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
+const passport = require("passport");
 const { port, logFormat } = require("config").get("app");
 const routes = require("./route");
 const db = require("./setup/db");
@@ -12,9 +12,13 @@ app.set("public", path.join(__dirname, "public"));
 // middlewares
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan(logFormat));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
+const autMiddleware = require("./middleware/auth");
+// setting up strategy
+passport.use(autMiddleware.authenticationStartegy());
+app.use(passport.initialize());
 // using routes
 app.use(routes);
 

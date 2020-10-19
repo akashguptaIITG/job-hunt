@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("partials/head.ejs") %>
+    <%- include("../partials/head.ejs") %>
   </head>
-  <body>
-    <%- include("partials/header.ejs") %>
+  <body style="background: rgba(128, 128, 128, 0.726)">
+    <%- include("../partials/header.ejs") %>
     <div class="container card login">
+      <h4 class="text-center font-weight-bold">Login</h4>
       <form
         id="loginForm"
         name="loginForm"
@@ -49,7 +50,7 @@
         },
       })
         .then((d) => d.json())
-        .then((d) => console.log(d))
+        .then((payload) => console.log(payload))
         .catch((e) => console.error(e));
       return false;
     }

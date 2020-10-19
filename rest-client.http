@@ -1,6 +1,6 @@
 // internal use only
 //  vs code extension rest-client in required for this 
-post http://localhost:7890/user/
+post http://localhost:7890/user/login
 content-type: application/json
 
 {

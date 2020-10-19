@@ -1,7 +1,7 @@
 const UserModel = require("../model/user");
 module.exports = {
   getRegisterPage(req, res) {
-    res.render("register.ejs");
+    res.render("user/register.ejs");
   },
   async addUser(req, res) {
     try {
@@ -14,7 +14,14 @@ module.exports = {
     }
   },
   getLoginPage(req, res) {
-    res.render("login.ejs");
+    res.render("user/login.ejs");
   },
-  checkLogin(req, res) {},
+  async checkLogin(req, res) {
+    const user = await UserModel.findOne({ username: req.body.username });
+    if (!user || !(await user.validatePassword(req.body.password))) {
+      res.status(401).json({ message: "invalid username or password" });
+    } else {
+      res.status(200).json(user.toAuthJson());
+    }
+  },
 };

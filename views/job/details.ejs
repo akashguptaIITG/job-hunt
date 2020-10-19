@@ -29,13 +29,21 @@
                 <span class="font-weight-bold">Satus: </span><%= job.status %>
               </h6>
             </div>
-            <div class="card-footer">
+            <div class="card-footer d-flex flex-row">
               <h6 class="font-weight-bold">Technologies</h6>
-              <small class="text-muted">
-                <% job.technologies.forEach(technology=>{ %>
-                <i class="fas fa-cog technology"><%= technology %></i>
-                <% }) %>
-              </small>
+              <div class="col-md-8">
+                <small class="text-muted align-self-start">
+                  <% job.technologies.forEach(technology=>{ %>
+                  <i class="fas fa-cog technology"><%= technology %></i>
+                  <% }) %>
+                </small>
+              </div>
+              <div class="col-md-4">
+                <button
+                  class="fas fa-eye job-btn align-self-end"
+                  onclick="return applyToJob(event);"
+                  id=<%= job._id %> > Apply</button >
+              </div>
             </div>
           </div>
         </div>
@@ -43,8 +51,8 @@
     </div>
   </body>
   <script>
-    function handleClick(e) {
-      console.log(jobId);
+    function applyToJob(e) {
+        const jobId = e.target.id;
       document.location.replace(`/job/${jobId}`);
       return false;
     }
