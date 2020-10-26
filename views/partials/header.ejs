@@ -1,0 +1,14 @@
+<header>
+    <nav>
+        <span>
+            <h1>JobHunt</h1>
+            <a href="/job">Home</a>
+            <% if(user && user.role==="Project Manager"){ %>
+               <a href="/job/add">Add a Job</a>
+            <% } %>
+            <% if(!user){ %>
+                <a href="/user/login">Login</a>
+             <% } %>
+        </span>         
+    </nav>
+</header>

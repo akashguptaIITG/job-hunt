@@ -4,11 +4,12 @@
     <%- include('../partials/head.ejs'); %>
   </head>
   <body>
+    <%- include("../partials/header.ejs",{user}) %>
     <div class="container job-details">
       <h3 class="text-center font-weight-bold">Job Details</h3>
       <div class="row row-cols-1 row-cols-md-1">
         <div class="col">
-          <div class="card h-100" onclick="handleClick()">
+          <div class="card h-100" >
             <div class="card-header">
               <span class="font-weight-bold">Project Name: </span> <%=
               job.projectName %>
@@ -39,10 +40,19 @@
                 </small>
               </div>
               <div class="col-md-4">
-                <button
-                  class="fas fa-eye job-btn align-self-end"
+               
+                  <% if(user && user.role==="Employee"){ %>
+                    <button
+                  class="fas fa-eye job-btn align-self-start"
                   onclick="return applyToJob(event);"
                   id=<%= job._id %> > Apply</button >
+                 <% } %>
+                  <% if(user && user.role==="Project Manager"){ %>
+                    <button
+                    class="fas fa-edit job-btn align-self-end"
+                    onclick="return updateJobDetails(event);"
+                    id=<%= job._id %> >Update</button >
+                 <% } %>
               </div>
             </div>
           </div>
@@ -54,6 +64,11 @@
     function applyToJob(e) {
         const jobId = e.target.id;
       document.location.replace(`/job/${jobId}`);
+      return false;
+    }
+    function updateJobDetails(e) {
+        const jobId = e.target.id;
+      document.location.replace(`/job/update/${jobId}`);
       return false;
     }
   </script>

@@ -2,15 +2,25 @@ const { USER_ROLES } = require("../common/constant");
 const jobController = require("../controller/job");
 const authMiddleware = require("../middleware/auth");
 const router = require("express").Router();
+const passport = require("passport");
 
-// get add or udpate page
+// get add job page
 router.get(
-  "/add-or-update",
+  "/add",
   [
     authMiddleware.isAuthenticated(),
     authMiddleware.isAuthorized([USER_ROLES.PROJECT_MANGER]),
   ],
-  jobController.getAddOrUpdateJobPage
+  jobController.getAddJobPage
+);
+// get udpate job page
+router.get(
+  "/update/:id",
+  [
+    authMiddleware.isAuthenticated(),
+    authMiddleware.isAuthorized([USER_ROLES.PROJECT_MANGER]),
+  ],
+  jobController.getUpdateJobPage
 );
 
 // get job  details
@@ -18,7 +28,10 @@ router.get(
   "/:id",
   [
     authMiddleware.isAuthenticated(),
-    authMiddleware.isAuthorized([USER_ROLES.EMPLOYEE]),
+    authMiddleware.isAuthorized([
+      USER_ROLES.EMPLOYEE,
+      USER_ROLES.PROJECT_MANGER,
+    ]),
   ],
   jobController.getJobDetails
 );
@@ -27,7 +40,11 @@ router.get(
   "/",
   [
     authMiddleware.isAuthenticated(),
-    authMiddleware.isAuthorized([USER_ROLES.EMPLOYEE]),
+
+    authMiddleware.isAuthorized([
+      USER_ROLES.EMPLOYEE,
+      USER_ROLES.PROJECT_MANGER,
+    ]),
   ],
   jobController.getAllJobs
 );
@@ -41,14 +58,24 @@ router.patch(
   ],
   jobController.applyToJob
 );
-//add or update job details
+//update job details
 router.put(
   "/:id",
   [
     authMiddleware.isAuthenticated(),
     authMiddleware.isAuthorized([USER_ROLES.PROJECT_MANGER]),
   ],
-  jobController.addOrUpdateJobDetails
+  jobController.updateJobDetails
+);
+
+// add job details
+router.post(
+  "/",
+  [
+    authMiddleware.isAuthenticated(),
+    authMiddleware.isAuthorized([USER_ROLES.PROJECT_MANGER]),
+  ],
+  jobController.addJob
 );
 
 module.exports = router;

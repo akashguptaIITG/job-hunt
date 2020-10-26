@@ -4,6 +4,7 @@
     <%- include('../partials/head.ejs'); %>
   </head>
   <body>
+    <%- include("../partials/header.ejs",{user}) %>
     <div class="container job-list">
       <div class="row row-cols-1 row-cols-md-2">
         <% jobs.forEach(job=>{ %>

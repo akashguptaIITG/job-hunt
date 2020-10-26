@@ -4,7 +4,9 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const UserModel = require("../model/user");
 
 const options = {};
-options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+options.jwtFromRequest = function extractTokenFromCookie(req) {
+  return req.cookies.token;
+};
 options.secretOrKey = process.env.JWT_SECRET;
 
 module.exports.authenticationStartegy = function () {
@@ -24,7 +26,8 @@ module.exports.authenticationStartegy = function () {
 
 // authentication using passport
 module.exports.isAuthenticated = function () {
-  return (re, rs, n) => n();
+  // return (re, rs, n) => n();
+
   return passport.authenticate("jwt", {
     session: false,
   });
@@ -32,7 +35,7 @@ module.exports.isAuthenticated = function () {
 
 // role based authorization
 module.exports.isAuthorized = function (roles = []) {
-  return (re, rs, n) => n();
+  // return (re, rs, n) => n();
 
   return function (req, res, next) {
     if (roles.length && !roles.includes(req.user.role)) {

@@ -18,7 +18,7 @@ const JobSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    technologies: { type: [String], required: true },
+    technologies: [{ type: String, required: true }],
     userApplications: [{ type: Types.ObjectId, ref: "User" }],
     description: {
       type: String,
@@ -37,5 +37,12 @@ const JobSchema = new mongoose.Schema(
   },
   { collection: "Job", selectPopulatedPaths: false, timestamps: true } // preventing pluralization and population of ref
 );
+
+JobSchema.methods.transformTechnologyToArray = function () {
+  this.technologies = this.technologies ? this.technologies.split(",") : [];
+};
+JobSchema.methods.addCreatedBy = function (userId) {
+  this.createdBy = userId;
+};
 
 module.exports = mongoose.model("Job", JobSchema);

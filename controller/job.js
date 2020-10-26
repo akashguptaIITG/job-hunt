@@ -1,54 +1,60 @@
-const jobs = [
-  {
-    _id: 1,
-    projectName: "power.Js",
-    clientName: "Neo",
-    description: "exciting oportunity",
-    status: "closed",
-    role: "node developer",
-    technologies: ["node", "javascript"],
-    createdBy: 1,
-  },
-  {
-    _id: 2,
-    projectName: "trax",
-    role: "React developer",
-    clientName: "Tickle",
-    technologies: ["React", "javascript", "net", "React", "javascript", "net"],
-  },
-  {
-    _id: 3,
-    projectName: "power.Js",
-    role: "node developer",
-    technologies: ["node", "javascript"],
-  },
-  {
-    _id: 4,
-    projectName: "power.Js",
-    role: "node developer",
-    technologies: ["node", "javascript"],
-  },
-];
 const JobModel = require("../model/job");
 module.exports = {
-  getAllJobs(req, res) {
-    res.render("job/list", { jobs });
+  async getAllJobs(req, res, next) {
+    try {
+      const user = req.user;
+      const jobs = await JobModel.find({});
+      res.render("job/list", { jobs, user });
+    } catch (error) {
+      next(err);
+    }
   },
-  getJobDetails(req, res) {
+  async getJobDetails(req, res, next) {
+    try {
+      const { id } = req.params;
+      const job = await JobModel.findById(id);
+      const user = req.user;
+      res.render("job/details", { job, user });
+    } catch (error) {
+      next(err);
+    }
+  },
+  getAddJobPage(req, res) {
+    const user = req.user;
+    res.render("job/add", { user });
+  },
+  async getUpdateJobPage(req, res, next) {
+    try {
+      const { id } = req.params;
+      const user = req.user;
+      const job = await JobModel.findById(id);
+      res.render("job/update", { job, user });
+    } catch (err) {
+      next(err);
+    }
+  },
+  async addJob(req, res, next) {
+    try {
+      req.body.technologies = req.body.technologies.split(",");
+      const job = new JobModel(req.body);
+      job.addCreatedBy(req.user._id);
+      await job.save();
+      res.status(201).json({ message: "job created successfully" });
+    } catch (err) {
+      next(err);
+    }
+  },
+  async updateJobDetails(req, res, next) {
+    try {
+      const { id } = req.params;
+      req.body.technologies = req.body.technologies.split(",");
+      const job = await JobModel.findByIdAndUpdate(id, req.body, { new: true });
+      res.status(204).json({ message: "updated succesfully" });
+    } catch (err) {
+      next(err);
+    }
+  },
+  applyToJob(req, res) {
     const { id } = req.params;
-    const job = jobs.filter((j) => j._id == id)[0];
-    res.render("job/details", { job });
   },
-  getAddOrUpdateJobPage(req, res) {
-    const { _id } = req.query;
-    const job = jobs.filter((j) => j._id == _id)[0];
-    res.render("job/add-or-update", { job });
-  },
-  async addJob(req, res) {
-    const job = new JobModel(req.body);
-    await job.save();
-    res.status(201).json({ message: "job created successfully" });
-  },
-  addOrUpdateJobDetails(req, res) {},
-  applyToJob(req, res) {},
 };

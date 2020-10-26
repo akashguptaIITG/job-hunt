@@ -4,7 +4,6 @@
     <%- include("../partials/head.ejs") %>
   </head>
   <body style="background: rgba(128, 128, 128, 0.726)">
-    <%- include("../partials/header.ejs") %>
     <div class="container card login">
       <h4 class="text-center font-weight-bold">Login</h4>
       <form
@@ -35,6 +34,7 @@
           />
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
+        <a href="/user/register">click here to register</a>
       </form>
     </div>
   </body>
@@ -50,7 +50,10 @@
         },
       })
         .then((d) => d.json())
-        .then((payload) => console.log(payload))
+        .then(({username,token,role,_id}) => {
+         
+          location.replace("/job");
+        })
         .catch((e) => console.error(e));
       return false;
     }
