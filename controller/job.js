@@ -28,6 +28,7 @@ module.exports = {
       const { id } = req.params;
       const user = req.user;
       const job = await JobModel.findById(id);
+      job.technologies = job.technologies.join(",").toString();
       res.render("job/update", { job, user });
     } catch (err) {
       next(err);

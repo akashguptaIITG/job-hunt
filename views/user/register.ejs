@@ -57,10 +57,9 @@
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((d) => d.json())
-        .then((d) => {alert("user registered successfully")})
-        .catch((e) =>{ console.error(e);alert(e)});
+      }).then((d) => d.json())
+        .then((d) => {console.log("user registered successfully")})
+        .catch((e) =>{ console.error(e)});
       return false;
     }
   </script>

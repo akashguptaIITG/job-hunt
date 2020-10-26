@@ -48,13 +48,12 @@
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((d) => d.json())
-        .then(({username,token,role,_id}) => {
-         
+      }).then((d) => d.json())
+        .then((d) => {
+        console.log("login success");
           location.replace("/job");
         })
-        .catch((e) => console.error(e));
+        .catch((e) => console.log(e));
       return false;
     }
   </script>

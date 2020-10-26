@@ -8,7 +8,7 @@ module.exports = {
       const newUser = new UserModel(req.body);
       await newUser.hashPassword();
       await newUser.save();
-      res.status(201).json({ message: "user created successfully" });
+      res.status(200).json({ message: "user created successfully" });
     } catch (err) {
       next(err);
     }
